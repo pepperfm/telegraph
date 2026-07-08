@@ -2,12 +2,8 @@
 
 namespace DefStudio\Telegraph\DTO\RichText;
 
-use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Contracts\RichTextItem;
-use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use DefStudio\Telegraph\Exceptions\RichTextException;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
 
 class RichTextCustomEmoji implements RichTextItem
 {
@@ -60,6 +56,6 @@ class RichTextCustomEmoji implements RichTextItem
             'type' => self::TYPE,
             'custom_emoji_id' => $this->customEmojiId,
             'alternative_text' => $this->alternativeText,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

@@ -2,12 +2,8 @@
 
 namespace DefStudio\Telegraph\DTO\RichText;
 
-use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Contracts\RichTextItem;
-use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use DefStudio\Telegraph\Exceptions\RichTextException;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
 
 class RichTextMathematicalExpression implements RichTextItem
 {
@@ -51,6 +47,6 @@ class RichTextMathematicalExpression implements RichTextItem
         return array_filter([
             'type' => self::TYPE,
             'expression' => $this->expression,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

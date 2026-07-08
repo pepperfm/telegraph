@@ -2,15 +2,11 @@
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
-use DefStudio\Telegraph\Contracts\RichTextItem;
-use DefStudio\Telegraph\DTO\Audio;
 use DefStudio\Telegraph\DTO\RichText\RichTextMathematicalExpression;
-use DefStudio\Telegraph\DTO\RichText\RichTextString;
 use DefStudio\Telegraph\Exceptions\RichTextException;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-it('export all properties', function() {
+it('export all properties', function () {
     $dto = RichTextMathematicalExpression::fromData([
         'type' => 'mathematical_expression',
         'expression' => 'test',
@@ -27,13 +23,12 @@ it('export all properties', function() {
     }
 });
 
-it('throw exception with wrong data structure', function() {
-    expect(fn() => RichTextMathematicalExpression::fromData('test'))
+it('throw exception with wrong data structure', function () {
+    expect(fn () => RichTextMathematicalExpression::fromData('test'))
         ->toThrow(RichTextException::structureMismatch(), 'The RichTextItem provided structure is not valid');
 });
 
-it('throw exception with wrong type', function() {
-    expect(fn() => RichTextMathematicalExpression::fromData(['type' => 'test']))
+it('throw exception with wrong type', function () {
+    expect(fn () => RichTextMathematicalExpression::fromData(['type' => 'test']))
         ->toThrow(RichTextException::structureMismatch(), 'The RichTextItem provided structure is not valid');
 });
-

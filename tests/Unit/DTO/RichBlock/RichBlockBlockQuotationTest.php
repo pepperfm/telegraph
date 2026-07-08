@@ -2,12 +2,11 @@
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
-use DefStudio\Telegraph\DTO\Animation;
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockBlockQuotation;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Support\Str;
 
-it('export all properties to array', function() {
+it('export all properties to array', function () {
     $dto = RichBlockBlockQuotation::fromArray([
         'type' => 'blockquote',
         'blocks' => [
@@ -34,7 +33,7 @@ it('export all properties to array', function() {
     }
 });
 
-it('throw exception with wrong type', function() {
-    expect(fn() => RichBlockBlockQuotation::fromArray(['type' => 'test']))
+it('throw exception with wrong type', function () {
+    expect(fn () => RichBlockBlockQuotation::fromArray(['type' => 'test']))
         ->toThrow(RichBlockException::structureMismatch(), 'The RichBlockItem provided structure is not valid');
 });

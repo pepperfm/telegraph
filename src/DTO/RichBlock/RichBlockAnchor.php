@@ -6,7 +6,7 @@ use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 
-class RichBlockAnchor implements RichBlockItem,Arrayable
+class RichBlockAnchor implements RichBlockItem, Arrayable
 {
     private const TYPE = 'anchor';
     private string $name;
@@ -47,6 +47,6 @@ class RichBlockAnchor implements RichBlockItem,Arrayable
         return array_filter([
             'type' => self::TYPE,
             'name' => $this->name,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

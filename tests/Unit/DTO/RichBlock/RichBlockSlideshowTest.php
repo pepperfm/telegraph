@@ -2,12 +2,11 @@
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
-use DefStudio\Telegraph\DTO\Animation;
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockSlideshow;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Support\Str;
 
-it('export all properties to array', function() {
+it('export all properties to array', function () {
     $dto = RichBlockSlideshow::fromArray([
         'type' => 'slideshow',
         'blocks' => [
@@ -40,7 +39,7 @@ it('export all properties to array', function() {
     }
 });
 
-it('throw exception with wrong type', function() {
-    expect(fn() => RichBlockSlideshow::fromArray(['type' => 'test']))
+it('throw exception with wrong type', function () {
+    expect(fn () => RichBlockSlideshow::fromArray(['type' => 'test']))
         ->toThrow(RichBlockException::structureMismatch(), 'The RichBlockItem provided structure is not valid');
 });

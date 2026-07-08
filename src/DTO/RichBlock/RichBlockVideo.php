@@ -3,14 +3,10 @@
 namespace DefStudio\Telegraph\DTO\RichBlock;
 
 use DefStudio\Telegraph\Contracts\RichBlockItem;
-use DefStudio\Telegraph\DTO\Animation;
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockElements\RichBlockCaption;
 use DefStudio\Telegraph\DTO\Video;
-use DefStudio\Telegraph\DTO\Factories\RichBlockFactory;
-use DefStudio\Telegraph\DTO\Location;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
 
 class RichBlockVideo implements RichBlockItem, Arrayable
 {
@@ -77,6 +73,6 @@ class RichBlockVideo implements RichBlockItem, Arrayable
             'video' => $this->video->toArray(),
             'has_spoiler' => $this->hasSpoiler ? true : null,
             'caption' => $this->caption?->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

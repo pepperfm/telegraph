@@ -9,7 +9,6 @@ use DefStudio\Telegraph\Exceptions\InvoiceException;
 use DefStudio\Telegraph\Telegraph;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use function Pest\Laravel\json;
 
 class TelegraphRichMessagePayload extends Telegraph
 {
@@ -132,14 +131,14 @@ class TelegraphRichMessagePayload extends Telegraph
                 'nullable',
                 'string',
                 'required_if:markdown,null',
-                Rule::prohibitedIf(fn() => isset($data['markdown'])),
+                Rule::prohibitedIf(fn () => isset($data['markdown'])),
             ],
 
             'rich_message.markdown' => [
                 'nullable',
                 'string',
                 'required_if:html,null',
-                Rule::prohibitedIf(fn() => isset($data['html'])),
+                Rule::prohibitedIf(fn () => isset($data['html'])),
             ],
 
             'business_connection_id' => 'nullable|string',

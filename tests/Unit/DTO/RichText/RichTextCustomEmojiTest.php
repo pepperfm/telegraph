@@ -2,15 +2,11 @@
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
-use DefStudio\Telegraph\Contracts\RichTextItem;
-use DefStudio\Telegraph\DTO\Audio;
 use DefStudio\Telegraph\DTO\RichText\RichTextCustomEmoji;
-use DefStudio\Telegraph\DTO\RichText\RichTextString;
 use DefStudio\Telegraph\Exceptions\RichTextException;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-it('export all properties', function() {
+it('export all properties', function () {
     $dto = RichTextCustomEmoji::fromData([
         'type' => 'custom_emoji',
         'custom_emoji_id' => '10',
@@ -28,13 +24,12 @@ it('export all properties', function() {
     }
 });
 
-it('throw exception with wrong data structure', function() {
-    expect(fn() => RichTextCustomEmoji::fromData('test'))
+it('throw exception with wrong data structure', function () {
+    expect(fn () => RichTextCustomEmoji::fromData('test'))
         ->toThrow(RichTextException::structureMismatch(), 'The RichTextItem provided structure is not valid');
 });
 
-it('throw exception with wrong type', function() {
-    expect(fn() => RichTextCustomEmoji::fromData(['type' => 'test']))
+it('throw exception with wrong type', function () {
+    expect(fn () => RichTextCustomEmoji::fromData(['type' => 'test']))
         ->toThrow(RichTextException::structureMismatch(), 'The RichTextItem provided structure is not valid');
 });
-

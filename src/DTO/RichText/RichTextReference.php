@@ -2,11 +2,9 @@
 
 namespace DefStudio\Telegraph\DTO\RichText;
 
-use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Contracts\RichTextItem;
 use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use DefStudio\Telegraph\Exceptions\RichTextException;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
 class RichTextReference implements RichTextItem
@@ -64,8 +62,8 @@ class RichTextReference implements RichTextItem
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'name' => $this->name,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

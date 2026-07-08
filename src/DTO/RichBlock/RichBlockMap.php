@@ -3,12 +3,10 @@
 namespace DefStudio\Telegraph\DTO\RichBlock;
 
 use DefStudio\Telegraph\Contracts\RichBlockItem;
-use DefStudio\Telegraph\DTO\Factories\RichBlockFactory;
 use DefStudio\Telegraph\DTO\Location;
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockElements\RichBlockCaption;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
 
 class RichBlockMap implements RichBlockItem, Arrayable
 {
@@ -93,6 +91,6 @@ class RichBlockMap implements RichBlockItem, Arrayable
             'width' => $this->width,
             'height' => $this->height,
             'caption' => $this->caption?->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

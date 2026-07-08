@@ -5,7 +5,6 @@ namespace DefStudio\Telegraph\DTO\RichBlock;
 use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Contracts\RichTextItem;
 use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
-use DefStudio\Telegraph\DTO\RichMessage;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
@@ -55,7 +54,7 @@ class RichBlockParagraph implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null);
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
+        ], fn ($value) => $value !== null);
     }
 }

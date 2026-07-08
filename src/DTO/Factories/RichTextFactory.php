@@ -2,29 +2,7 @@
 
 namespace DefStudio\Telegraph\DTO\Factories;
 
-use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Contracts\RichTextItem;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockAnchor;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockAnimation;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockAudio;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockBlockQuotation;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockCollage;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockDetails;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockDivider;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockFooter;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockList;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockMap;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockMathematicalExpression;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockParagraph;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockPhoto;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockPreformatted;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockPullQuotation;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockSectionHeading;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockSlideshow;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockTable;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockThinking;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockVideo;
-use DefStudio\Telegraph\DTO\RichBlock\RichBlockVoiceNote;
 use DefStudio\Telegraph\DTO\RichText\RichTextAnchor;
 use DefStudio\Telegraph\DTO\RichText\RichTextAnchorLink;
 use DefStudio\Telegraph\DTO\RichText\RichTextBankCardNumber;
@@ -51,7 +29,6 @@ use DefStudio\Telegraph\DTO\RichText\RichTextSuperscript;
 use DefStudio\Telegraph\DTO\RichText\RichTextTextMention;
 use DefStudio\Telegraph\DTO\RichText\RichTextUnderline;
 use DefStudio\Telegraph\DTO\RichText\RichTextUrl;
-use DefStudio\Telegraph\Exceptions\RichBlockFactoryException;
 use DefStudio\Telegraph\Exceptions\RichTextException;
 use DefStudio\Telegraph\Exceptions\RichTextFactoryException;
 use Illuminate\Support\Collection;
@@ -72,7 +49,7 @@ class RichTextFactory
         }
 
         if (is_array($data) && !isset($data['type'])) {
-            return collect($data)->map(fn($item) => $this->fromData($item));
+            return collect($data)->map(fn ($item) => $this->fromData($item));
         }
 
         return match ($data['type']) {

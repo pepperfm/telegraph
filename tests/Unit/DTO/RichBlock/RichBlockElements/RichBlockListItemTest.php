@@ -2,12 +2,10 @@
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
-use DefStudio\Telegraph\DTO\Animation;
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockElements\RichBlockListItem;
-use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Support\Str;
 
-it('export all properties to array', function() {
+it('export all properties to array', function () {
     $dto = RichBlockListItem::fromArray([
         'label' => 'test',
         'blocks' => [

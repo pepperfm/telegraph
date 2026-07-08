@@ -40,7 +40,7 @@ class RichBlockCollage implements RichBlockItem, Arrayable
 
         if (isset($data['blocks']) && $data['blocks']) {
             /* @phpstan-ignore-next-line */
-            $richBlockCollage->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
+            $richBlockCollage->blocks = collect($data['blocks'])->map(fn (array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
         }
 
         if (isset($data['caption']) && $data['caption']) {
@@ -75,6 +75,6 @@ class RichBlockCollage implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'blocks' => $this->blocks->toArray(),
             'caption' => $this->caption?->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

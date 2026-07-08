@@ -35,7 +35,7 @@ class RichBlockSlideshow implements RichBlockItem, Arrayable
 
         if (isset($data['blocks']) && $data['blocks']) {
             /* @phpstan-ignore-next-line */
-            $richBlockSlideshow->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
+            $richBlockSlideshow->blocks = collect($data['blocks'])->map(fn (array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
         }
 
         if (isset($data['caption']) && $data['caption']) {
@@ -70,6 +70,6 @@ class RichBlockSlideshow implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'blocks' => $this->blocks->toArray(),
             'caption' => $this->caption?->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

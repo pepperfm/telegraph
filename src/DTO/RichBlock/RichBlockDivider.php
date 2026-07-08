@@ -28,6 +28,6 @@ class RichBlockDivider implements RichBlockItem, Arrayable
     {
         return array_filter([
             'type' => self::TYPE,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

@@ -62,8 +62,8 @@ class RichBlockSectionHeading implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'size' => $this->size,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }
