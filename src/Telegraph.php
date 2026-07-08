@@ -129,6 +129,8 @@ class Telegraph
     public const ENDPOINT_REFUND_STAR_PAYMENT = 'refundStarPayment';
 
     public const ENDPOINT_SEND_GAME = 'sendGame';
+    public const ENDPOINT_SEND_RICH_MESSAGE = 'sendRichMessage';
+
 
     /** @var array<string, mixed> */
     protected array $data = [];

@@ -38,6 +38,7 @@ class Message implements Arrayable
 
     /** @var Collection<array-key, Photo> */
     private Collection $photos;
+    private ?RichMessage $richMessage = null;
     private ?Animation $animation = null;
     private ?Audio $audio = null;
     private ?Giveaway $giveaway = null;
@@ -85,6 +86,7 @@ class Message implements Arrayable
      *     chat?: array<string, mixed>,
      *     reply_markup?: array<array<array<string>>>,
      *     reply_to_message?: array<string, mixed>,
+     *     rich_message?: array<string,mixed>,
      *     animation?:array<string, mixed>,
      *     audio?:array<string, mixed>,
      *     voice?:array<string, mixed>,
@@ -163,7 +165,11 @@ class Message implements Arrayable
         }
 
         /* @phpstan-ignore-next-line */
-        $message->photos = collect($data['photo'] ?? [])->map(fn (array $photoData) => Photo::fromArray($photoData));
+        $message->photos = collect($data['photo'] ?? [])->map(fn(array $photoData) => Photo::fromArray($photoData));
+
+        if (isset($data['rich_message'])) {
+            $message->richMessage = RichMessage::fromArray($data['rich_message']);
+        }
 
         if (isset($data['animation'])) {
             $message->animation = Animation::fromArray($data['animation']);
@@ -235,7 +241,7 @@ class Message implements Arrayable
         }
 
         /* @phpstan-ignore-next-line */
-        $message->newChatMembers = collect($data['new_chat_members'] ?? [])->map(fn (array $userData) => User::fromArray($userData));
+        $message->newChatMembers = collect($data['new_chat_members'] ?? [])->map(fn(array $userData) => User::fromArray($userData));
 
 
         if (isset($data['left_chat_member'])) {
@@ -258,7 +264,7 @@ class Message implements Arrayable
 
         if (isset($data['entities']) && $data['entities']) {
             /* @phpstan-ignore-next-line */
-            $message->entities = collect($data['entities'])->map(fn (array $entity) => Entity::fromArray($entity));
+            $message->entities = collect($data['entities'])->map(fn(array $entity) => Entity::fromArray($entity));
         }
 
         if (isset($data['migrate_to_chat_id'])) {
@@ -340,6 +346,11 @@ class Message implements Arrayable
     public function photos(): Collection
     {
         return $this->photos;
+    }
+
+    public function richMessage(): ?RichMessage
+    {
+        return $this->richMessage;
     }
 
     public function animation(): ?Animation
@@ -480,6 +491,7 @@ class Message implements Arrayable
             'keyboard' => $this->keyboard->isFilled() ? $this->keyboard->toArray() : null,
             'reply_to_message' => $this->replyToMessage?->toArray(),
             'photos' => $this->photos->toArray(),
+            'rich_message' => $this->richMessage?->toArray(),
             'animation' => $this->animation?->toArray(),
             'audio' => $this->audio?->toArray(),
             'document' => $this->document?->toArray(),
@@ -503,6 +515,6 @@ class Message implements Arrayable
             'write_access_allowed' => $this->writeAccessAllowed?->toArray(),
             'migrate_to_chat_id' => (int) $this->migrateToChatId,
             'entities' => $this->entities->toArray(),
-        ], fn ($value) => $value !== null);
+        ], fn($value) => $value !== null);
     }
 }
