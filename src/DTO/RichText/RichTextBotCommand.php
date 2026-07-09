@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 class RichTextBotCommand implements RichTextItem
 {
     private const TYPE = 'bot_command';
-    /** @var RichTextItem|Collection<int|string,RichTextItem>  */
+    /** @var RichTextItem|Collection<int|string,RichTextItem> */
     private RichTextItem|Collection $text;
     private string $botCommand;
 
@@ -66,8 +66,8 @@ class RichTextBotCommand implements RichTextItem
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'bot_command' => $this->botCommand,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

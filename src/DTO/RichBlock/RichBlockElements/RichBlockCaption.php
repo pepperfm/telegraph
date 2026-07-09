@@ -58,16 +58,15 @@ class RichBlockCaption implements Arrayable
         return $this->credit();
     }
 
-
     public function toArray(): array
     {
         return array_filter([
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'credit' => $this->credit instanceof RichTextItem
                 ? $this->credit->build()
-                : $this->credit->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+                : $this->credit->map(fn (RichTextItem $item) => $item->build())->toArray(),
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

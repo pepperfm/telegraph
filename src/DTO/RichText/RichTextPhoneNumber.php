@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 class RichTextPhoneNumber implements RichTextItem
 {
     private const TYPE = 'phone_number';
-    /** @var RichTextItem|Collection<int|string,RichTextItem>  */
+    /** @var RichTextItem|Collection<int|string,RichTextItem> */
     private RichTextItem|Collection $text;
     private string $phoneNumber;
 
@@ -66,8 +66,8 @@ class RichTextPhoneNumber implements RichTextItem
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'phone_number' => $this->phoneNumber,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

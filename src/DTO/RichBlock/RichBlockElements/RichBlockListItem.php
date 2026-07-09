@@ -12,7 +12,6 @@ use Illuminate\Support\Collection;
  */
 class RichBlockListItem implements Arrayable
 {
-
     private string $label;
     /** @var Collection<array-key,RichBlockItem> */
     private Collection $blocks;
@@ -41,7 +40,7 @@ class RichBlockListItem implements Arrayable
         $richBlockListItem = new self();
 
         /* @phpstan-ignore-next-line */
-        $richBlockListItem->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
+        $richBlockListItem->blocks = collect($data['blocks'])->map(fn (array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
 
         $richBlockListItem->label = $data['label'];
         $richBlockListItem->type = $data['type'] ?? null;
@@ -94,6 +93,6 @@ class RichBlockListItem implements Arrayable
             'is_checked' => $this->isChecked,
             'value' => $this->value,
             'type' => $this->type,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

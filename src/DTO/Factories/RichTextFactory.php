@@ -51,7 +51,7 @@ class RichTextFactory
 
         if (!isset($data['type'])) {
             /** @phpstan-ignore-next-line  */
-            return collect($data)->map(fn(string|array $item) => (is_array($item) && !isset($item['type'])) ? throw RichTextFactoryException::structureMismatch() : $this->fromData($item));
+            return collect($data)->map(fn (string|array $item) => (is_array($item) && !isset($item['type'])) ? throw RichTextFactoryException::structureMismatch() : $this->fromData($item));
         }
 
         return match ($data['type']) {

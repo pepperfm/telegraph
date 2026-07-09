@@ -56,6 +56,6 @@ class RichTextCustomEmoji implements RichTextItem
             'type' => self::TYPE,
             'custom_emoji_id' => $this->customEmojiId,
             'alternative_text' => $this->alternativeText,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

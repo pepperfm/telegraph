@@ -4,7 +4,6 @@ namespace DefStudio\Telegraph\Contracts;
 
 interface RichBlockItem
 {
-
     /**
      * @param  array<string, mixed>  $data
      *

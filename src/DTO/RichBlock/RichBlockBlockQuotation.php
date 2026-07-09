@@ -45,7 +45,7 @@ class RichBlockBlockQuotation implements RichBlockItem, Arrayable
         $richBlockBlockQuotation = new self();
 
         /* @phpstan-ignore-next-line */
-        $richBlockBlockQuotation->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
+        $richBlockBlockQuotation->blocks = collect($data['blocks'])->map(fn (array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
 
         if (isset($data['credit']) && $data['credit']) {
             $richBlockBlockQuotation->credit = app(RichTextFactory::class)->fromData($data['credit']);
@@ -82,7 +82,7 @@ class RichBlockBlockQuotation implements RichBlockItem, Arrayable
             'blocks' => $this->blocks->toArray(),
             'credit' => $this->credit instanceof RichTextItem
                 ? $this->credit->build()
-                : $this->credit->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+                : $this->credit->map(fn (RichTextItem $item) => $item->build())->toArray(),
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

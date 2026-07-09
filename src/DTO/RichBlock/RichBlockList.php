@@ -27,14 +27,14 @@ class RichBlockList implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockList
     {
-        if ( $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockList = new self();
 
-            /* @phpstan-ignore-next-line */
-            $richBlockList->items = collect($data['items'])->map(fn(array $listItem) => RichBlockListItem::fromArray($listItem));
+        /* @phpstan-ignore-next-line */
+        $richBlockList->items = collect($data['items'])->map(fn (array $listItem) => RichBlockListItem::fromArray($listItem));
 
         return $richBlockList;
     }
@@ -57,6 +57,6 @@ class RichBlockList implements RichBlockItem, Arrayable
         return array_filter([
             'type' => self::TYPE,
             'items' => $this->items->toArray(),
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

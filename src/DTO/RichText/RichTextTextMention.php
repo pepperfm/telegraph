@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 class RichTextTextMention implements RichTextItem
 {
     private const TYPE = 'text_mention';
-    /** @var RichTextItem|Collection<int|string,RichTextItem>  */
+    /** @var RichTextItem|Collection<int|string,RichTextItem> */
     private RichTextItem|Collection $text;
     private User $user;
 
@@ -68,8 +68,8 @@ class RichTextTextMention implements RichTextItem
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'user' => $this->user->toArray(),
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

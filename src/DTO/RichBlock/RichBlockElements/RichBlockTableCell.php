@@ -92,12 +92,12 @@ class RichBlockTableCell implements Arrayable
                 ? $this->text->build()
                 : ($this->text->isEmpty()
                     ? null
-                    : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray()),
+                    : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray()),
             'is_header' => $this->isHeader,
             'colspan' => $this->colspan,
             'rowspan' => $this->rowspan,
             'align' => $this->align,
             'valign' => $this->valign,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

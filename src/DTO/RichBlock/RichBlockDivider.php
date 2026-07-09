@@ -23,7 +23,7 @@ class RichBlockDivider implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockDivider
     {
-        if ( $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
@@ -39,6 +39,6 @@ class RichBlockDivider implements RichBlockItem, Arrayable
     {
         return array_filter([
             'type' => self::TYPE,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

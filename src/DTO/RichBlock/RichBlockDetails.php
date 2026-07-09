@@ -40,7 +40,7 @@ class RichBlockDetails implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockDetails
     {
-        if ( $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 

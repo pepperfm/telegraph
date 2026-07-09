@@ -47,6 +47,6 @@ class RichTextMathematicalExpression implements RichTextItem
         return array_filter([
             'type' => self::TYPE,
             'expression' => $this->expression,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

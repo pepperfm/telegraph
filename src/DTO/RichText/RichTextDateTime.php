@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 class RichTextDateTime implements RichTextItem
 {
     private const TYPE = 'date_time';
-    /** @var RichTextItem|Collection<int|string,RichTextItem>  */
+    /** @var RichTextItem|Collection<int|string,RichTextItem> */
     private RichTextItem|Collection $text;
     private int $unixTime;
     private string $dateTimeFormat;
@@ -76,9 +76,9 @@ class RichTextDateTime implements RichTextItem
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'unix_time' => $this->unixTime,
             'date_time_format' => $this->dateTimeFormat,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

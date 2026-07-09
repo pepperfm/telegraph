@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 class RichTextMarked implements RichTextItem
 {
     private const TYPE = 'marked';
-    /** @var RichTextItem|Collection<int|string,RichTextItem>  */
+    /** @var RichTextItem|Collection<int|string,RichTextItem> */
     private RichTextItem|Collection $text;
 
     public function __construct()
@@ -58,7 +58,7 @@ class RichTextMarked implements RichTextItem
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

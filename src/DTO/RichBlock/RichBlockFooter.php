@@ -28,7 +28,7 @@ class RichBlockFooter implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockFooter
     {
-        if ( $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
@@ -58,7 +58,7 @@ class RichBlockFooter implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

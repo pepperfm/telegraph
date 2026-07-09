@@ -47,6 +47,6 @@ class RichTextAnchor implements RichTextItem
         return array_filter([
             'type' => self::TYPE,
             'name' => $this->name,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }
