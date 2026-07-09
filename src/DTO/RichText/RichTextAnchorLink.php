@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 class RichTextAnchorLink implements RichTextItem
 {
     private const TYPE = 'anchor_link';
+    /** @var RichTextItem|Collection<int|string,RichTextItem>  */
     private RichTextItem|Collection $text;
     private string $anchorName;
 
@@ -23,7 +24,7 @@ class RichTextAnchorLink implements RichTextItem
     /**
      * @param  string|array{
      *     type: string,
-     *     text: string|array,
+     *     text: string|array<string ,mixed>,
      *     anchor_name: string
      * }  $data
      *
@@ -33,7 +34,7 @@ class RichTextAnchorLink implements RichTextItem
     {
         $richTextAnchorLink = new self();
 
-        if (!is_array($data) || !isset($data['type']) || $data['type'] !== self::TYPE) {
+        if (!is_array($data) || $data['type'] !== self::TYPE) {
             throw RichTextException::structureMismatch();
         }
 
@@ -48,7 +49,9 @@ class RichTextAnchorLink implements RichTextItem
         return self::TYPE;
     }
 
-
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
@@ -67,6 +70,6 @@ class RichTextAnchorLink implements RichTextItem
                 ? $this->text->build()
                 : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
             'anchor_name' => $this->anchorName,
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

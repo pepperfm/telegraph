@@ -12,6 +12,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockVoiceNote implements RichBlockItem, Arrayable
 {
     private const TYPE = 'voice_note';
@@ -25,11 +28,11 @@ class RichBlockVoiceNote implements RichBlockItem, Arrayable
      *     caption?: array<string, mixed>
      * }  $data
      *
-     * @return RichBlockAnimation
+     * @return RichBlockVoiceNote
      */
     public static function fromArray(array $data): RichBlockItem
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 

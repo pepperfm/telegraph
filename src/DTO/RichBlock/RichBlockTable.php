@@ -10,9 +10,13 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockTable implements RichBlockItem, Arrayable
 {
     private const TYPE = 'table';
+    /** @var Collection<int|string, Collection<int|string, RichBlockTableCell>> */
     private Collection $cells;
     private bool $isBordered = false;
     private bool $isStriped = false;
@@ -28,25 +32,25 @@ class RichBlockTable implements RichBlockItem, Arrayable
     /**
      * @param  array{
      *     type: string,
-     *     cells: array<array-key, array<array-key, Object>>,
+     *     cells: array<array-key, array<array-key, array<string,mixed>>>,
      *     is_bordered?: bool,
      *     is_striped?: bool,
-     *     caption?: string|array<array-key,string|Object>,
+     *     caption?: string|array<string ,mixed>,
      * }  $data
      *
      * @return RichBlockTable
      */
     public static function fromArray(array $data): RichBlockTable
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockTable = new self();
 
-        $richBlockTable->cells = collect($data['cells'] ?? [])
+        $richBlockTable->cells = collect($data['cells'])
             ->map(fn(array $row, $rowIndex) => collect($row)
-                ->map(fn(array $cell) => RichBlockTableCell::fromArray($row)
+                ->map(fn(array $cell) => RichBlockTableCell::fromArray($cell)
                 )
             );
 
@@ -67,7 +71,7 @@ class RichBlockTable implements RichBlockItem, Arrayable
 
 
     /**
-     * @return Collection<array-key, Collection<array-key, RichBlockTableCell>>
+     * @return Collection<int|string, Collection<int|string, RichBlockTableCell>>
      */
     public function cells(): Collection
     {
@@ -84,7 +88,9 @@ class RichBlockTable implements RichBlockItem, Arrayable
         return $this->isStriped;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function caption(): RichTextItem|Collection
     {
         return $this->caption;

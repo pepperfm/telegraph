@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 class RichTextSuperscript implements RichTextItem
 {
     private const TYPE = 'superscript';
+    /** @var RichTextItem|Collection<int|string,RichTextItem>  */
     private RichTextItem|Collection $text;
 
     public function __construct()
@@ -22,7 +23,7 @@ class RichTextSuperscript implements RichTextItem
     /**
      * @param  string|array{
      *     type: string,
-     *     text: string|array
+     *     text: string|array<string ,mixed>,
      * }  $data
      *
      * @return RichTextSuperscript
@@ -31,7 +32,7 @@ class RichTextSuperscript implements RichTextItem
     {
         $richTextSuperscript = new self();
 
-        if (!is_array($data) || !isset($data['type']) || $data['type'] !== self::TYPE) {
+        if (!is_array($data) || $data['type'] !== self::TYPE) {
             throw RichTextException::structureMismatch();
         }
 
@@ -45,6 +46,9 @@ class RichTextSuperscript implements RichTextItem
         return self::TYPE;
     }
 
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
@@ -57,6 +61,6 @@ class RichTextSuperscript implements RichTextItem
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
                 : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

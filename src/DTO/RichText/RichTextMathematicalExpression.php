@@ -27,7 +27,7 @@ class RichTextMathematicalExpression implements RichTextItem
     {
         $richTextMathematicalExpression = new self();
 
-        if (!is_array($data) || !isset($data['type']) || $data['type'] !== self::TYPE) {
+        if (!is_array($data) || $data['type'] !== self::TYPE) {
             throw RichTextException::structureMismatch();
         }
 
@@ -51,6 +51,6 @@ class RichTextMathematicalExpression implements RichTextItem
         return array_filter([
             'type' => self::TYPE,
             'expression' => $this->expression,
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

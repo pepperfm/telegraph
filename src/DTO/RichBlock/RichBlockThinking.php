@@ -9,6 +9,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockThinking implements RichBlockItem, Arrayable
 {
     private const TYPE = 'thinking';
@@ -18,20 +21,20 @@ class RichBlockThinking implements RichBlockItem, Arrayable
     /**
      * @param  array{
      *     type: string,
-     *     text: string|array<array-key,string|Object>,
+     *     text: string|array<string ,mixed>,
      * }  $data
      *
      * @return RichBlockThinking
      */
     public static function fromArray(array $data): RichBlockThinking
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockThinking = new self();
 
-        $richBlockThinking->text = app(RichTextFactory::class)->fromData($data['text'] ?? []);
+        $richBlockThinking->text = app(RichTextFactory::class)->fromData($data['text']);
 
         return $richBlockThinking;
     }
@@ -41,7 +44,9 @@ class RichBlockThinking implements RichBlockItem, Arrayable
         return self::TYPE;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
@@ -54,6 +59,6 @@ class RichBlockThinking implements RichBlockItem, Arrayable
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
                 : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

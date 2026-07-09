@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use function Pest\Laravel\json;
 
+/**
+ * @phpstan-type TelegraphData array{
+ *     rich_message?: array<string, mixed>
+ * }
+ */
 class TelegraphRichMessagePayload extends Telegraph
 {
     use BuildsFromTelegraphClass;
@@ -21,7 +26,12 @@ class TelegraphRichMessagePayload extends Telegraph
 
         $telegraph->endpoint = self::ENDPOINT_SEND_RICH_MESSAGE;
 
-        $telegraph->data['rich_message']['html'] = $richMessage;
+        /** @var TelegraphData $data */
+        $data = $telegraph->data;
+
+        $data['rich_message']['html'] = $richMessage;
+
+        $telegraph->data = $data;
 
         return $telegraph;
     }
@@ -30,19 +40,24 @@ class TelegraphRichMessagePayload extends Telegraph
     {
         $telegraph = clone $this;
 
+        /** @var TelegraphData $data */
+        $data = $telegraph->data;
+
         if (!$asMarkdown) {
-            if (!isset($telegraph->data['rich_message']['html'])) {
-                $telegraph->data['rich_message']['html'] = $telegraph->data['rich_message']['markdown'] ?? null;
+            if (!isset($data['rich_message']['html'])) {
+                $data['rich_message']['html'] = $data['rich_message']['markdown'] ?? null;
             }
 
-            unset($telegraph->data['rich_message']['markdown']);
+            unset($data['rich_message']['markdown']);
 
             return $telegraph;
         }
 
-        $telegraph->data['rich_message']['markdown'] = $telegraph->data['rich_message']['html'] ?? null;
+        $data['rich_message']['markdown'] = $data['rich_message']['html'] ?? null;
 
-        unset($telegraph->data['rich_message']['html']);
+        unset($data['rich_message']['html']);
+
+        $telegraph->data = $data;
 
         return $telegraph;
     }
@@ -110,6 +125,9 @@ class TelegraphRichMessagePayload extends Telegraph
         return $telegraph;
     }
 
+    /**
+     * @param  array<string,mixed>  $parameters
+     */
     public function suggestedPostParameters(array $parameters): static
     {
         $telegraph = clone $this;

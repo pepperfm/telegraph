@@ -12,9 +12,13 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockPhoto implements RichBlockItem, Arrayable
 {
     private const TYPE = 'photo';
+    /** @var Collection<array-key, Photo> */
     private Collection $photos;
     private bool $hasSpoiler = false;
     private ?RichBlockCaption $caption = null;
@@ -32,7 +36,7 @@ class RichBlockPhoto implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockPhoto
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 

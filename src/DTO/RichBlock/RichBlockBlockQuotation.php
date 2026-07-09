@@ -10,6 +10,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockBlockQuotation implements RichBlockItem, Arrayable
 {
     private const TYPE = 'blockquote';
@@ -28,23 +31,21 @@ class RichBlockBlockQuotation implements RichBlockItem, Arrayable
      * @param  array{
      *     type: string,
      *     blocks: array<array-key,Object>,
-     *     credit?: string|array<array-key,string|Object>,
+     *     credit?: string|array<string ,mixed>,
      * }  $data
      *
      * @return RichBlockBlockQuotation
      */
     public static function fromArray(array $data): RichBlockBlockQuotation
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockBlockQuotation = new self();
 
-        if (isset($data['blocks']) && $data['blocks']) {
-            /* @phpstan-ignore-next-line */
-            $richBlockBlockQuotation->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
-        }
+        /* @phpstan-ignore-next-line */
+        $richBlockBlockQuotation->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
 
         if (isset($data['credit']) && $data['credit']) {
             $richBlockBlockQuotation->credit = app(RichTextFactory::class)->fromData($data['credit']);
@@ -66,7 +67,9 @@ class RichBlockBlockQuotation implements RichBlockItem, Arrayable
         return $this->blocks;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function credit(): RichTextItem|Collection
     {
         return $this->credit;
@@ -80,6 +83,6 @@ class RichBlockBlockQuotation implements RichBlockItem, Arrayable
             'credit' => $this->credit instanceof RichTextItem
                 ? $this->credit->build()
                 : $this->credit->map(fn(RichTextItem $item) => $item->build())->toArray(),
-            ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

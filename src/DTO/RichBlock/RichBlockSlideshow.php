@@ -9,6 +9,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockSlideshow implements RichBlockItem, Arrayable
 {
     private const TYPE = 'slideshow';
@@ -27,16 +30,14 @@ class RichBlockSlideshow implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockSlideshow
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockSlideshow = new self();
 
-        if (isset($data['blocks']) && $data['blocks']) {
-            /* @phpstan-ignore-next-line */
-            $richBlockSlideshow->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
-        }
+        /* @phpstan-ignore-next-line */
+        $richBlockSlideshow->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
 
         if (isset($data['caption']) && $data['caption']) {
             /* @phpstan-ignore-next-line */

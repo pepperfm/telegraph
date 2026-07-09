@@ -9,6 +9,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockSectionHeading implements RichBlockItem, Arrayable
 {
     private const TYPE = 'heading';
@@ -19,7 +22,7 @@ class RichBlockSectionHeading implements RichBlockItem, Arrayable
     /**
      * @param  array{
      *     type: string,
-     *     text: string|array<array-key,string|Object>,
+     *     text: string|array<string ,mixed>,
      *     size: int
      * }  $data
      *
@@ -27,15 +30,15 @@ class RichBlockSectionHeading implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockSectionHeading
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ( $data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockSectionHeading = new self();
 
-        $richBlockSectionHeading->text = app(RichTextFactory::class)->fromData($data['text'] ?? []);
+        $richBlockSectionHeading->text = app(RichTextFactory::class)->fromData($data['text'] );
 
-        $richBlockSectionHeading->size = $data['size'] ?? 1;
+        $richBlockSectionHeading->size = $data['size'];
 
         return $richBlockSectionHeading;
     }
@@ -45,7 +48,9 @@ class RichBlockSectionHeading implements RichBlockItem, Arrayable
         return self::TYPE;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
@@ -64,6 +69,6 @@ class RichBlockSectionHeading implements RichBlockItem, Arrayable
                 ? $this->text->build()
                 : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
             'size' => $this->size,
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

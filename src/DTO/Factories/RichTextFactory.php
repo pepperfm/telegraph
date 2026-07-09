@@ -59,9 +59,10 @@ use Illuminate\Support\Collection;
 class RichTextFactory
 {
     /**
-     * @param  string|array<array-key,string|Object>  $data
      *
-     * @return RichTextItem|Collection<RichTextItem>
+     * @param  string|array<string, mixed>  $data
+     *
+     * @return RichTextItem|Collection<int|string,RichTextItem>
      * @throws RichTextException
      * @throws RichTextFactoryException
      */
@@ -71,36 +72,37 @@ class RichTextFactory
             return RichTextString::fromData($data);
         }
 
-        if (is_array($data) && !isset($data['type'])) {
-            return collect($data)->map(fn($item) => $this->fromData($item));
+        if (!isset($data['type'])) {
+            /** @phpstan-ignore-next-line  */
+            return collect($data)->map(fn(string|array $item) => (is_array($item) && !isset($item['type'])) ? throw RichTextFactoryException::structureMismatch() : $this->fromData($item));
         }
 
         return match ($data['type']) {
-            app(RichTextBold::class)->type() => RichTextBold::fromData($data),
-            app(RichTextItalic::class)->type() => RichTextItalic::fromData($data),
-            app(RichTextUnderline::class)->type() => RichTextUnderline::fromData($data),
-            app(RichTextStrikethrough::class)->type() => RichTextStrikethrough::fromData($data),
-            app(RichTextSpoiler::class)->type() => RichTextSpoiler::fromData($data),
-            app(RichTextDateTime::class)->type() => RichTextDateTime::fromData($data),
-            app(RichTextTextMention::class)->type() => RichTextTextMention::fromData($data),
-            app(RichTextSubscript::class)->type() => RichTextSubscript::fromData($data),
-            app(RichTextSuperscript::class)->type() => RichTextSuperscript::fromData($data),
-            app(RichTextMarked::class)->type() => RichTextMarked::fromData($data),
-            app(RichTextCode::class)->type() => RichTextCode::fromData($data),
-            app(RichTextCustomEmoji::class)->type() => RichTextCustomEmoji::fromData($data),
-            app(RichTextMathematicalExpression::class)->type() => RichTextMathematicalExpression::fromData($data),
-            app(RichTextUrl::class)->type() => RichTextUrl::fromData($data),
-            app(RichTextEmailAddress::class)->type() => RichTextEmailAddress::fromData($data),
-            app(RichTextPhoneNumber::class)->type() => RichTextPhoneNumber::fromData($data),
-            app(RichTextBankCardNumber::class)->type() => RichTextBankCardNumber::fromData($data),
-            app(RichTextMention::class)->type() => RichTextMention::fromData($data),
-            app(RichTextHashtag::class)->type() => RichTextHashtag::fromData($data),
-            app(RichTextCashtag::class)->type() => RichTextCashtag::fromData($data),
-            app(RichTextBotCommand::class)->type() => RichTextBotCommand::fromData($data),
-            app(RichTextAnchor::class)->type() => RichTextAnchor::fromData($data),
-            app(RichTextAnchorLink::class)->type() => RichTextAnchorLink::fromData($data),
-            app(RichTextReference::class)->type() => RichTextReference::fromData($data),
-            app(RichTextReferenceLink::class)->type() => RichTextReferenceLink::fromData($data),
+            app(RichTextBold::class)->type() => RichTextBold::fromData($data), //@phpstan-ignore-line
+            app(RichTextItalic::class)->type() => RichTextItalic::fromData($data), //@phpstan-ignore-line
+            app(RichTextUnderline::class)->type() => RichTextUnderline::fromData($data), //@phpstan-ignore-line
+            app(RichTextStrikethrough::class)->type() => RichTextStrikethrough::fromData($data), //@phpstan-ignore-line
+            app(RichTextSpoiler::class)->type() => RichTextSpoiler::fromData($data), //@phpstan-ignore-line
+            app(RichTextDateTime::class)->type() => RichTextDateTime::fromData($data), //@phpstan-ignore-line
+            app(RichTextTextMention::class)->type() => RichTextTextMention::fromData($data), //@phpstan-ignore-line
+            app(RichTextSubscript::class)->type() => RichTextSubscript::fromData($data), //@phpstan-ignore-line
+            app(RichTextSuperscript::class)->type() => RichTextSuperscript::fromData($data), //@phpstan-ignore-line
+            app(RichTextMarked::class)->type() => RichTextMarked::fromData($data), //@phpstan-ignore-line
+            app(RichTextCode::class)->type() => RichTextCode::fromData($data), //@phpstan-ignore-line
+            app(RichTextCustomEmoji::class)->type() => RichTextCustomEmoji::fromData($data), //@phpstan-ignore-line
+            app(RichTextMathematicalExpression::class)->type() => RichTextMathematicalExpression::fromData($data), //@phpstan-ignore-line
+            app(RichTextUrl::class)->type() => RichTextUrl::fromData($data), //@phpstan-ignore-line
+            app(RichTextEmailAddress::class)->type() => RichTextEmailAddress::fromData($data), //@phpstan-ignore-line
+            app(RichTextPhoneNumber::class)->type() => RichTextPhoneNumber::fromData($data), //@phpstan-ignore-line
+            app(RichTextBankCardNumber::class)->type() => RichTextBankCardNumber::fromData($data), //@phpstan-ignore-line
+            app(RichTextMention::class)->type() => RichTextMention::fromData($data), //@phpstan-ignore-line
+            app(RichTextHashtag::class)->type() => RichTextHashtag::fromData($data), //@phpstan-ignore-line
+            app(RichTextCashtag::class)->type() => RichTextCashtag::fromData($data), //@phpstan-ignore-line
+            app(RichTextBotCommand::class)->type() => RichTextBotCommand::fromData($data), //@phpstan-ignore-line
+            app(RichTextAnchor::class)->type() => RichTextAnchor::fromData($data), //@phpstan-ignore-line
+            app(RichTextAnchorLink::class)->type() => RichTextAnchorLink::fromData($data), //@phpstan-ignore-line
+            app(RichTextReference::class)->type() => RichTextReference::fromData($data), //@phpstan-ignore-line
+            app(RichTextReferenceLink::class)->type() => RichTextReferenceLink::fromData($data), //@phpstan-ignore-line
 
             default => throw RichTextFactoryException::invalidType($data['type'])
         };

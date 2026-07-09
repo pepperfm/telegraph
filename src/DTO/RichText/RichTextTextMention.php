@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 class RichTextTextMention implements RichTextItem
 {
     private const TYPE = 'text_mention';
+    /** @var RichTextItem|Collection<int|string,RichTextItem>  */
     private RichTextItem|Collection $text;
     private User $user;
 
@@ -24,7 +25,7 @@ class RichTextTextMention implements RichTextItem
     /**
      * @param  string|array{
      *     type: string,
-     *     text: string|array,
+     *     text: string|array<string ,mixed>,
      *     user: array<string,mixed>
      * }  $data
      *
@@ -34,7 +35,7 @@ class RichTextTextMention implements RichTextItem
     {
         $richTextTextMention = new self();
 
-        if (!is_array($data) || !isset($data['type']) || $data['type'] !== self::TYPE) {
+        if (!is_array($data) || $data['type'] !== self::TYPE) {
             throw RichTextException::structureMismatch();
         }
 
@@ -50,6 +51,9 @@ class RichTextTextMention implements RichTextItem
         return self::TYPE;
     }
 
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
@@ -68,6 +72,6 @@ class RichTextTextMention implements RichTextItem
                 ? $this->text->build()
                 : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
             'user' => $this->user->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

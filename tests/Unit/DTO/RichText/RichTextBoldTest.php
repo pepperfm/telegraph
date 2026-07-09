@@ -49,7 +49,7 @@ it('create text from array', function() {
             'test',
             [
                 'type' => 'bold',
-                'text' => 'Hello world',
+                        'text' => 'Hello world',
             ],
         ],
     ]);

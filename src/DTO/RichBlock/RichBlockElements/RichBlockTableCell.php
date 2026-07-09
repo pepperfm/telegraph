@@ -8,6 +8,9 @@ use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockTableCell implements Arrayable
 {
     /** @var RichTextItem|Collection<array-key, RichTextItem> */
@@ -25,7 +28,7 @@ class RichBlockTableCell implements Arrayable
 
     /**
      * @param  array{
-     *     text: string|array<array-key,string|Object>,
+     *     text?: string|array<string ,mixed>,
      *     is_header?: bool,
      *     colspan?: int,
      *     rowspan?: int,
@@ -37,20 +40,22 @@ class RichBlockTableCell implements Arrayable
     {
         $richBlockTableCell = new self();
 
-        if (isset($data['text']) && $data['text']) {
+        if (isset($data['text'])) {
             $richBlockTableCell->text = app(RichTextFactory::class)->fromData($data['text']);
         }
 
         $richBlockTableCell->isHeader = $data['is_header'] ?? false;
         $richBlockTableCell->colspan = $data['colspan'] ?? null;
         $richBlockTableCell->rowspan = $data['rowspan'] ?? null;
-        $richBlockTableCell->align = $data['align'] ?? 'left';
-        $richBlockTableCell->valign = $data['valign'] ?? 'top';
+        $richBlockTableCell->align = $data['align'];
+        $richBlockTableCell->valign = $data['valign'];
 
         return $richBlockTableCell;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
@@ -86,7 +91,9 @@ class RichBlockTableCell implements Arrayable
         return array_filter([
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : ($this->text->isEmpty()
+                    ? null
+                    : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray()),
             'is_header' => $this->isHeader,
             'colspan' => $this->colspan,
             'rowspan' => $this->rowspan,

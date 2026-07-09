@@ -9,6 +9,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockPullQuotation implements RichBlockItem, Arrayable
 {
     private const TYPE = 'pullquote';
@@ -26,21 +29,21 @@ class RichBlockPullQuotation implements RichBlockItem, Arrayable
     /**
      * @param  array{
      *     type: string,
-     *     text: string|array<array-key,string|Object>,
-     *     credit?: string|array<array-key,string|Object>,
+     *     text: string|array<string ,mixed>,
+     *     credit?: string|array<string ,mixed>,
      * }  $data
      *
      * @return RichBlockPullQuotation
      */
     public static function fromArray(array $data): RichBlockPullQuotation
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockPullQuotation = new self();
 
-        $richBlockPullQuotation->text = app(RichTextFactory::class)->fromData($data['text'] ?? []);
+        $richBlockPullQuotation->text = app(RichTextFactory::class)->fromData($data['text']);
 
         if (isset($data['credit']) && $data['credit']) {
             $richBlockPullQuotation->credit = app(RichTextFactory::class)->fromData($data['credit']);
@@ -54,13 +57,17 @@ class RichBlockPullQuotation implements RichBlockItem, Arrayable
         return self::TYPE;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function credit(): RichTextItem|Collection
     {
         return $this->credit();
@@ -76,6 +83,6 @@ class RichBlockPullQuotation implements RichBlockItem, Arrayable
             'credit' => $this->credit instanceof RichTextItem
                 ? $this->credit->build()
                 : $this->credit->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

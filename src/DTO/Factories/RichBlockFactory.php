@@ -30,7 +30,7 @@ class RichBlockFactory
 {
     /**
      * @param  array{
-     *     type:string
+     *     type?:string
      * }  $blockData
      *
      * @return RichBlockItem

@@ -12,6 +12,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockVideo implements RichBlockItem, Arrayable
 {
     private const TYPE = 'video';
@@ -31,15 +34,13 @@ class RichBlockVideo implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockVideo
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockVideo = new self();
 
-        if (isset($data['video'])) {
-            $richBlockVideo->video = Video::fromArray($data['video']);
-        }
+        $richBlockVideo->video = Video::fromArray($data['video']);
 
         $richBlockVideo->hasSpoiler = $data['has_spoiler'] ?? false;
 

@@ -8,6 +8,9 @@ use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockCaption implements Arrayable
 {
     /** @var RichTextItem|Collection<array-key, RichTextItem> */
@@ -23,15 +26,15 @@ class RichBlockCaption implements Arrayable
 
     /**
      * @param  array{
-     *     text: string|array<array-key,string|Object>,
-     *     credit?: string|array<array-key,string|Object>,
+     *     text: string|array<string ,mixed>,
+     *     credit?: string|array<string ,mixed>,
      * }  $data
      */
     public static function fromArray(array $data): RichBlockCaption
     {
         $richBlockCaption = new self();
 
-        $richBlockCaption->text = app(RichTextFactory::class)->fromData($data['text'] ?? []);
+        $richBlockCaption->text = app(RichTextFactory::class)->fromData($data['text']);
 
         if (isset($data['credit']) && $data['credit']) {
             $richBlockCaption->credit = app(RichTextFactory::class)->fromData($data['credit']);
@@ -40,13 +43,17 @@ class RichBlockCaption implements Arrayable
         return $richBlockCaption;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function credit(): RichTextItem|Collection
     {
         return $this->credit();
@@ -62,6 +69,6 @@ class RichBlockCaption implements Arrayable
             'credit' => $this->credit instanceof RichTextItem
                 ? $this->credit->build()
                 : $this->credit->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

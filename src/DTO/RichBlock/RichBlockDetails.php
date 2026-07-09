@@ -10,6 +10,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockDetails implements RichBlockItem, Arrayable
 {
     private const TYPE = 'details';
@@ -28,7 +31,7 @@ class RichBlockDetails implements RichBlockItem, Arrayable
     /**
      * @param  array{
      *     type: string,
-     *     summary: string|array<array-key,string|Object>,
+     *     summary: string|array<string ,mixed>,
      *     blocks: array<array-key,Object>,
      *     is_open?: bool,
      * }  $data
@@ -37,13 +40,13 @@ class RichBlockDetails implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockDetails
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ( $data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockDetails = new self();
 
-        $richBlockDetails->summary = app(RichTextFactory::class)->fromData($data['text'] ?? []);
+        $richBlockDetails->summary = app(RichTextFactory::class)->fromData($data['summary']);
 
         /* @phpstan-ignore-next-line */
         $richBlockDetails->blocks = collect($data['blocks'] ?? [])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
@@ -66,7 +69,9 @@ class RichBlockDetails implements RichBlockItem, Arrayable
         return $this->blocks;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function summary(): RichTextItem|Collection
     {
         return $this->summary;

@@ -10,6 +10,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockMap implements RichBlockItem, Arrayable
 {
     private const TYPE = 'map';
@@ -33,17 +36,15 @@ class RichBlockMap implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockMap
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockMap = new self();
 
-        if (isset($data['location'])) {
-            $richBlockMap->location = Location::fromArray($data['location']);
-        }
+        $richBlockMap->location = Location::fromArray($data['location']);
 
-        $richBlockMap->zoom = $data['zoom'] ?? 13;
+        $richBlockMap->zoom = $data['zoom'];
         $richBlockMap->width = $data['width'];
         $richBlockMap->height = $data['height'];
 

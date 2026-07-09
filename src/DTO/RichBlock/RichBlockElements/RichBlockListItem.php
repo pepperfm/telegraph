@@ -8,6 +8,9 @@ use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockListItem implements Arrayable
 {
 
@@ -38,10 +41,8 @@ class RichBlockListItem implements Arrayable
     {
         $richBlockListItem = new self();
 
-        if (isset($data['blocks']) && $data['blocks']) {
-            /* @phpstan-ignore-next-line */
-            $richBlockListItem->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
-        }
+        /* @phpstan-ignore-next-line */
+        $richBlockListItem->blocks = collect($data['blocks'])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
 
         $richBlockListItem->label = $data['label'];
         $richBlockListItem->type = $data['type'] ?? null;

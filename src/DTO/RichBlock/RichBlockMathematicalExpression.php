@@ -6,6 +6,9 @@ use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockMathematicalExpression implements RichBlockItem, Arrayable
 {
     private const TYPE = 'mathematical_expression';
@@ -21,7 +24,7 @@ class RichBlockMathematicalExpression implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockMathematicalExpression
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ( $data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
@@ -47,6 +50,6 @@ class RichBlockMathematicalExpression implements RichBlockItem, Arrayable
         return array_filter([
             'type' => self::TYPE,
             'expression' => $this->expression,
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

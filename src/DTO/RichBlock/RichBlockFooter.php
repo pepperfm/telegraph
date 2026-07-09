@@ -9,6 +9,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockFooter implements RichBlockItem, Arrayable
 {
     private const TYPE = 'footer';
@@ -18,20 +21,20 @@ class RichBlockFooter implements RichBlockItem, Arrayable
     /**
      * @param  array{
      *     type: string,
-     *     text: string|array<array-key,string|Object>,
+     *     text: string|array<string ,mixed>,
      * }  $data
      *
      * @return RichBlockFooter
      */
     public static function fromArray(array $data): RichBlockFooter
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ( $data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockFooter = new self();
 
-        $richBlockFooter->text = app(RichTextFactory::class)->fromData($data['text'] ?? []);
+        $richBlockFooter->text = app(RichTextFactory::class)->fromData($data['text']);
 
         return $richBlockFooter;
     }
@@ -41,7 +44,9 @@ class RichBlockFooter implements RichBlockItem, Arrayable
         return self::TYPE;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;
@@ -54,6 +59,6 @@ class RichBlockFooter implements RichBlockItem, Arrayable
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
                 : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

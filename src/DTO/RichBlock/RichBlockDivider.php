@@ -6,13 +6,24 @@ use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockDivider implements RichBlockItem, Arrayable
 {
     private const TYPE = 'divider';
 
+    /**
+     * @param  array{
+     *     type: string
+     * }  $data
+     *
+     * @return RichBlockDivider
+     * @throws RichBlockException
+     */
     public static function fromArray(array $data): RichBlockDivider
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ( $data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
@@ -28,6 +39,6 @@ class RichBlockDivider implements RichBlockItem, Arrayable
     {
         return array_filter([
             'type' => self::TYPE,
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

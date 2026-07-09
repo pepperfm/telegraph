@@ -9,6 +9,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockPreformatted implements RichBlockItem, Arrayable
 {
     private const TYPE = 'pre';
@@ -19,7 +22,7 @@ class RichBlockPreformatted implements RichBlockItem, Arrayable
     /**
      * @param  array{
      *     type: string,
-     *     text: string|array<array-key,string|Object>,
+     *     text: string|array<string ,mixed>,
      *     language:string
      * }  $data
      *
@@ -27,15 +30,15 @@ class RichBlockPreformatted implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockPreformatted
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockPreformatted = new self();
 
-        $richBlockPreformatted->text = app(RichTextFactory::class)->fromData($data['text'] ?? []);
+        $richBlockPreformatted->text = app(RichTextFactory::class)->fromData($data['text']);
 
-        $richBlockPreformatted->language = $data['language'] ?? null;
+        $richBlockPreformatted->language = $data['language'];
 
         return $richBlockPreformatted;
     }
@@ -45,7 +48,9 @@ class RichBlockPreformatted implements RichBlockItem, Arrayable
         return self::TYPE;
     }
 
-    /** @return RichTextItem|Collection<RichTextItem> */
+    /**
+     * @return RichTextItem|Collection<int|string,RichTextItem>
+     */
     public function text(): RichTextItem|Collection
     {
         return $this->text;

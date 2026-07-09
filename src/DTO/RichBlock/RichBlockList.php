@@ -8,6 +8,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockList implements RichBlockItem, Arrayable
 {
     private const TYPE = 'list';
@@ -24,16 +27,14 @@ class RichBlockList implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockList
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ( $data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockList = new self();
 
-        if (isset($data['items']) && $data['items']) {
             /* @phpstan-ignore-next-line */
             $richBlockList->items = collect($data['items'])->map(fn(array $listItem) => RichBlockListItem::fromArray($listItem));
-        }
 
         return $richBlockList;
     }
@@ -56,6 +57,6 @@ class RichBlockList implements RichBlockItem, Arrayable
         return array_filter([
             'type' => self::TYPE,
             'items' => $this->items->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn($value) => $value !== null); //@phpstan-ignore-line
     }
 }

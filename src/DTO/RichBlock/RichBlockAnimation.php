@@ -11,6 +11,9 @@ use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
+/**
+ * @implements Arrayable<string, string|int>
+ */
 class RichBlockAnimation implements RichBlockItem, Arrayable
 {
     private const TYPE = 'animation';
@@ -30,7 +33,7 @@ class RichBlockAnimation implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockAnimation
     {
-        if (!isset($data['type']) || $data['type'] !== self::TYPE) {
+        if ( $data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 

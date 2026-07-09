@@ -13,7 +13,7 @@ class RichTextString implements RichTextItem
     private string $text;
 
     /**
-     * @param  string|array  $data
+     * @param  string|array<string, mixed>  $data
      *
      * @return RichTextString
      * @throws RichTextException
