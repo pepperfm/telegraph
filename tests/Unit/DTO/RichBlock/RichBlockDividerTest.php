@@ -2,12 +2,11 @@
 
 /** @noinspection PhpUnhandledExceptionInspection */
 
-use DefStudio\Telegraph\DTO\Animation;
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockDivider;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Support\Str;
 
-it('export all properties to array', function() {
+it('export all properties to array', function () {
     $dto = RichBlockDivider::fromArray([
         'type' => 'divider',
     ]);
@@ -17,7 +16,7 @@ it('export all properties to array', function() {
     expect($array['type'])->toBe($dto->type());
 });
 
-it('throw exception with wrong type', function() {
-    expect(fn() => RichBlockDivider::fromArray(['type' => 'test']))
+it('throw exception with wrong type', function () {
+    expect(fn () => RichBlockDivider::fromArray(['type' => 'test']))
         ->toThrow(RichBlockException::structureMismatch(), 'The RichBlockItem provided structure is not valid');
 });

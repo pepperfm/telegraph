@@ -44,5 +44,4 @@ trait CreatesScopedPayloads
 
         return $richMessagePayload->richMessage($richMessage);
     }
-
 }

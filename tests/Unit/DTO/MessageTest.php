@@ -6,7 +6,7 @@ use DefStudio\Telegraph\DTO\Message;
 use DefStudio\Telegraph\Keyboard\Keyboard;
 use Illuminate\Support\Str;
 
-it('export all properties to array', function() {
+it('export all properties to array', function () {
     $dto = Message::fromArray([
         'message_id' => 2,
         'message_thread_id' => 123456,
@@ -485,7 +485,7 @@ it('export all properties to array', function() {
     }
 });
 
-it("extract web_app_data of string type", function() {
+it("extract web_app_data of string type", function () {
     $dto = Message::fromArray([
         'message_id' => 2,
         'date' => now()->timestamp,
@@ -500,7 +500,7 @@ it("extract web_app_data of string type", function() {
 });
 
 
-it("extract web_app_data of json type", function() {
+it("extract web_app_data of json type", function () {
     $dto = Message::fromArray([
         'message_id' => 2,
         'date' => now()->timestamp,

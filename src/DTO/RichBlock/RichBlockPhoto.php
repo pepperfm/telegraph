@@ -3,9 +3,6 @@
 namespace DefStudio\Telegraph\DTO\RichBlock;
 
 use DefStudio\Telegraph\Contracts\RichBlockItem;
-use DefStudio\Telegraph\DTO\Animation;
-use DefStudio\Telegraph\DTO\Factories\RichBlockFactory;
-use DefStudio\Telegraph\DTO\Location;
 use DefStudio\Telegraph\DTO\Photo;
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockElements\RichBlockCaption;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
@@ -22,7 +19,6 @@ class RichBlockPhoto implements RichBlockItem, Arrayable
     private Collection $photos;
     private bool $hasSpoiler = false;
     private ?RichBlockCaption $caption = null;
-
 
     /**
      * @param  array{
@@ -43,7 +39,7 @@ class RichBlockPhoto implements RichBlockItem, Arrayable
         $richBlockPhoto = new self();
 
         /* @phpstan-ignore-next-line */
-        $richBlockPhoto->photos = collect($data['photo'] ?? [])->map(fn(array $photoData) => Photo::fromArray($photoData));
+        $richBlockPhoto->photos = collect($data['photo'] ?? [])->map(fn (array $photoData) => Photo::fromArray($photoData));
 
         $richBlockPhoto->hasSpoiler = $data['has_spoiler'] ?? false;
 
@@ -84,6 +80,6 @@ class RichBlockPhoto implements RichBlockItem, Arrayable
             'photos' => $this->photos->toArray(),
             'has_spoiler' => $this->hasSpoiler ? true : null,
             'caption' => $this->caption?->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

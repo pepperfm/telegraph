@@ -3,15 +3,14 @@
 /** @noinspection PhpUnhandledExceptionInspection */
 
 use DefStudio\Telegraph\Contracts\RichTextItem;
-use DefStudio\Telegraph\DTO\Audio;
 use DefStudio\Telegraph\DTO\RichText\RichTextSpoiler;
-use DefStudio\Telegraph\DTO\RichText\RichTextTextMention;
 use DefStudio\Telegraph\DTO\RichText\RichTextString;
+use DefStudio\Telegraph\DTO\RichText\RichTextTextMention;
 use DefStudio\Telegraph\Exceptions\RichTextException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-it('export all properties', function() {
+it('export all properties', function () {
     $dto = RichTextTextMention::fromData([
         'type' => 'text_mention',
         'text' => 'Hello world',
@@ -37,7 +36,7 @@ it('export all properties', function() {
     }
 });
 
-it('create text from string', function() {
+it('create text from string', function () {
     $dto = RichTextTextMention::fromData([
         'type' => 'text_mention',
         'text' => 'Hello world',
@@ -61,7 +60,7 @@ it('create text from string', function() {
     expect($text)->toBeInstanceOf(RichTextString::class);
 });
 
-it('create text from array', function() {
+it('create text from array', function () {
     $dto = RichTextTextMention::fromData([
         'type' => 'text_mention',
         'text' => [
@@ -91,12 +90,12 @@ it('create text from array', function() {
     expect($text)->toBeInstanceOf(Collection::class)
         ->and(
             $text->every(
-                fn($item) => $item instanceof RichTextItem
+                fn ($item) => $item instanceof RichTextItem
             )
         )->toBeTrue();
 });
 
-it('create text from Rich Text Item', function() {
+it('create text from Rich Text Item', function () {
     $dto = RichTextTextMention::fromData([
         'type' => 'text_mention',
         'text' =>
@@ -124,13 +123,12 @@ it('create text from Rich Text Item', function() {
     expect($text)->toBeInstanceOf(RichTextSpoiler::class);
 });
 
-it('throw exception with wrong data structure', function() {
-    expect(fn() => RichTextTextMention::fromData('test'))
+it('throw exception with wrong data structure', function () {
+    expect(fn () => RichTextTextMention::fromData('test'))
         ->toThrow(RichTextException::structureMismatch(), 'The RichTextItem provided structure is not valid');
 });
 
-it('throw exception with wrong type', function() {
-    expect(fn() => RichTextTextMention::fromData(['type' => 'test']))
+it('throw exception with wrong type', function () {
+    expect(fn () => RichTextTextMention::fromData(['type' => 'test']))
         ->toThrow(RichTextException::structureMismatch(), 'The RichTextItem provided structure is not valid');
 });
-

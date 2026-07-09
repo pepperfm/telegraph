@@ -3,7 +3,6 @@
 /** @noinspection PhpUnhandledExceptionInspection */
 
 use DefStudio\Telegraph\Contracts\RichTextItem;
-use DefStudio\Telegraph\DTO\Audio;
 use DefStudio\Telegraph\DTO\RichText\RichTextBold;
 use DefStudio\Telegraph\DTO\RichText\RichTextPhoneNumber;
 use DefStudio\Telegraph\DTO\RichText\RichTextString;
@@ -11,11 +10,11 @@ use DefStudio\Telegraph\Exceptions\RichTextException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-it('export all properties', function() {
+it('export all properties', function () {
     $dto = RichTextPhoneNumber::fromData([
         'type' => 'phone_number',
         'text' => 'Hello world',
-        'phone_number' => 'test'
+        'phone_number' => 'test',
     ]);
 
     $reflection = new ReflectionClass($dto);
@@ -29,11 +28,11 @@ it('export all properties', function() {
     }
 });
 
-it('create text from string', function() {
+it('create text from string', function () {
     $dto = RichTextPhoneNumber::fromData([
         'type' => 'phone_number',
         'text' => 'Hello world',
-        'phone_number' => 'test'
+        'phone_number' => 'test',
     ]);
 
     $reflection = new ReflectionClass($dto);
@@ -45,7 +44,7 @@ it('create text from string', function() {
     expect($text)->toBeInstanceOf(RichTextString::class);
 });
 
-it('create text from array', function() {
+it('create text from array', function () {
     $dto = RichTextPhoneNumber::fromData([
         'type' => 'phone_number',
         'text' => [
@@ -55,7 +54,7 @@ it('create text from array', function() {
                 'text' => 'Hello world',
             ],
         ],
-        'phone_number' => 'test'
+        'phone_number' => 'test',
     ]);
 
     $reflection = new ReflectionClass($dto);
@@ -67,12 +66,12 @@ it('create text from array', function() {
     expect($text)->toBeInstanceOf(Collection::class)
         ->and(
             $text->every(
-                fn($item) => $item instanceof RichTextItem
+                fn ($item) => $item instanceof RichTextItem
             )
         )->toBeTrue();
 });
 
-it('create text from Rich Text Item', function() {
+it('create text from Rich Text Item', function () {
     $dto = RichTextPhoneNumber::fromData([
         'type' => 'phone_number',
         'text' =>
@@ -80,7 +79,7 @@ it('create text from Rich Text Item', function() {
                 'type' => 'bold',
                 'text' => 'Hello world',
             ],
-        'phone_number' => 'test'
+        'phone_number' => 'test',
 
     ]);
 
@@ -93,13 +92,12 @@ it('create text from Rich Text Item', function() {
     expect($text)->toBeInstanceOf(RichTextBold::class);
 });
 
-it('throw exception with wrong data structure', function() {
-    expect(fn() => RichTextPhoneNumber::fromData('test'))
+it('throw exception with wrong data structure', function () {
+    expect(fn () => RichTextPhoneNumber::fromData('test'))
         ->toThrow(RichTextException::structureMismatch(), 'The RichTextItem provided structure is not valid');
 });
 
-it('throw exception with wrong type', function() {
-    expect(fn() => RichTextPhoneNumber::fromData(['type' => 'test']))
+it('throw exception with wrong type', function () {
+    expect(fn () => RichTextPhoneNumber::fromData(['type' => 'test']))
         ->toThrow(RichTextException::structureMismatch(), 'The RichTextItem provided structure is not valid');
 });
-

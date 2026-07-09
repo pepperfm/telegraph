@@ -3,14 +3,10 @@
 namespace DefStudio\Telegraph\DTO\RichBlock;
 
 use DefStudio\Telegraph\Contracts\RichBlockItem;
-use DefStudio\Telegraph\DTO\Animation;
 use DefStudio\Telegraph\DTO\Audio;
-use DefStudio\Telegraph\DTO\Factories\RichBlockFactory;
-use DefStudio\Telegraph\DTO\Location;
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockElements\RichBlockCaption;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
 
 /**
  * @implements Arrayable<string, string|int>
@@ -43,6 +39,7 @@ class RichBlockAudio implements RichBlockItem, Arrayable
         if (isset($data['caption']) && $data['caption']) {
             $richBlockAudio->caption = RichBlockCaption::fromArray($data['caption']);
         }
+
         return $richBlockAudio;
     }
 
@@ -67,6 +64,6 @@ class RichBlockAudio implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'audio' => $this->audio->toArray(),
             'caption' => $this->caption?->toArray(),
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

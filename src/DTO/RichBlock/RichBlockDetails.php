@@ -49,7 +49,7 @@ class RichBlockDetails implements RichBlockItem, Arrayable
         $richBlockDetails->summary = app(RichTextFactory::class)->fromData($data['summary']);
 
         /* @phpstan-ignore-next-line */
-        $richBlockDetails->blocks = collect($data['blocks'] ?? [])->map(fn(array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
+        $richBlockDetails->blocks = collect($data['blocks'] ?? [])->map(fn (array $blockData) => app(RichBlockFactory::class)->fromArray($blockData));
 
         $richBlockDetails->isOpen = $data['is_open'] ?? false;
 
@@ -88,9 +88,9 @@ class RichBlockDetails implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'summary' => $this->summary instanceof RichTextItem
                 ? $this->summary->build()
-                : $this->summary->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->summary->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'blocks' => $this->blocks->toArray(),
             'is_open' => $this->isOpen ? true : null,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

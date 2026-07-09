@@ -67,8 +67,8 @@ class RichBlockPreformatted implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'language' => $this->language,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }
