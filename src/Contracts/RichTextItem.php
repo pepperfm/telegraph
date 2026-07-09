@@ -4,7 +4,6 @@ namespace DefStudio\Telegraph\Contracts;
 
 interface RichTextItem
 {
-
     /**
      * @param  string|array<string,mixed>  $data
      *

@@ -28,7 +28,7 @@ class RichBlockAudio implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockAudio
     {
-        if ( $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 

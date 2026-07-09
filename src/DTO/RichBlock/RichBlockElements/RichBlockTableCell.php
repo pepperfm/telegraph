@@ -2,7 +2,6 @@
 
 namespace DefStudio\Telegraph\DTO\RichBlock\RichBlockElements;
 
-use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Contracts\RichTextItem;
 use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use Illuminate\Contracts\Support\Arrayable;
@@ -93,12 +92,12 @@ class RichBlockTableCell implements Arrayable
                 ? $this->text->build()
                 : ($this->text->isEmpty()
                     ? null
-                    : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray()),
+                    : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray()),
             'is_header' => $this->isHeader,
             'colspan' => $this->colspan,
             'rowspan' => $this->rowspan,
             'align' => $this->align,
             'valign' => $this->valign,
-        ], fn($value) => $value !== null);
+        ], fn ($value) => $value !== null);
     }
 }

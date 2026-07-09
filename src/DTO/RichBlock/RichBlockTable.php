@@ -49,8 +49,10 @@ class RichBlockTable implements RichBlockItem, Arrayable
         $richBlockTable = new self();
 
         $richBlockTable->cells = collect($data['cells'])
-            ->map(fn(array $row, $rowIndex) => collect($row)
-                ->map(fn(array $cell) => RichBlockTableCell::fromArray($cell)
+            ->map(
+                fn (array $row, $rowIndex) => collect($row)
+                ->map(
+                    fn (array $cell) => RichBlockTableCell::fromArray($cell)
                 )
             );
 
@@ -68,7 +70,6 @@ class RichBlockTable implements RichBlockItem, Arrayable
     {
         return self::TYPE;
     }
-
 
     /**
      * @return Collection<int|string, Collection<int|string, RichBlockTableCell>>
@@ -96,17 +97,16 @@ class RichBlockTable implements RichBlockItem, Arrayable
         return $this->caption;
     }
 
-
     public function toArray(): array
     {
         return array_filter([
             'type' => self::TYPE,
-            'cells' => $this->cells->map(fn(Collection $row) => $row->toArray())->toArray(),
+            'cells' => $this->cells->map(fn (Collection $row) => $row->toArray())->toArray(),
             'is_bordered' => $this->isBordered ? true : null,
             'is_striped' => $this->isStriped ? true : null,
             'caption' => $this->caption instanceof RichTextItem
                 ? $this->caption->build()
-                : $this->caption->map(fn(RichTextItem $item) => $item->build())->toArray(),
-        ], fn($value) => $value !== null);
+                : $this->caption->map(fn (RichTextItem $item) => $item->build())->toArray(),
+        ], fn ($value) => $value !== null);
     }
 }

@@ -24,7 +24,7 @@ class RichBlockMathematicalExpression implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockMathematicalExpression
     {
-        if ( $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
@@ -50,6 +50,6 @@ class RichBlockMathematicalExpression implements RichBlockItem, Arrayable
         return array_filter([
             'type' => self::TYPE,
             'expression' => $this->expression,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }

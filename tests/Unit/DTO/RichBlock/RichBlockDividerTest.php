@@ -4,7 +4,6 @@
 
 use DefStudio\Telegraph\DTO\RichBlock\RichBlockDivider;
 use DefStudio\Telegraph\Exceptions\RichBlockException;
-use Illuminate\Support\Str;
 
 it('export all properties to array', function () {
     $dto = RichBlockDivider::fromArray([

@@ -30,13 +30,13 @@ class RichBlockSectionHeading implements RichBlockItem, Arrayable
      */
     public static function fromArray(array $data): RichBlockSectionHeading
     {
-        if ( $data['type'] !== self::TYPE) {
+        if ($data['type'] !== self::TYPE) {
             throw RichBlockException::structureMismatch();
         }
 
         $richBlockSectionHeading = new self();
 
-        $richBlockSectionHeading->text = app(RichTextFactory::class)->fromData($data['text'] );
+        $richBlockSectionHeading->text = app(RichTextFactory::class)->fromData($data['text']);
 
         $richBlockSectionHeading->size = $data['size'];
 
@@ -67,8 +67,8 @@ class RichBlockSectionHeading implements RichBlockItem, Arrayable
             'type' => self::TYPE,
             'text' => $this->text instanceof RichTextItem
                 ? $this->text->build()
-                : $this->text->map(fn(RichTextItem $item) => $item->build())->toArray(),
+                : $this->text->map(fn (RichTextItem $item) => $item->build())->toArray(),
             'size' => $this->size,
-        ], fn($value) => $value !== null); //@phpstan-ignore-line
+        ], fn ($value) => $value !== null); //@phpstan-ignore-line
     }
 }
