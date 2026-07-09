@@ -4,7 +4,6 @@ namespace DefStudio\Telegraph\DTO\RichBlock\RichBlockElements;
 
 use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\DTO\Factories\RichBlockFactory;
-use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 

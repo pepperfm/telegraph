@@ -2,7 +2,6 @@
 
 namespace DefStudio\Telegraph\DTO\RichBlock\RichBlockElements;
 
-use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Contracts\RichTextItem;
 use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use Illuminate\Contracts\Support\Arrayable;

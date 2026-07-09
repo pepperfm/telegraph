@@ -2,12 +2,10 @@
 
 namespace DefStudio\Telegraph\DTO\RichText;
 
-use DefStudio\Telegraph\Contracts\RichBlockItem;
 use DefStudio\Telegraph\Contracts\RichTextItem;
 use DefStudio\Telegraph\DTO\Factories\RichTextFactory;
 use DefStudio\Telegraph\DTO\User;
 use DefStudio\Telegraph\Exceptions\RichTextException;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
 class RichTextTextMention implements RichTextItem
