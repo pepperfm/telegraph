@@ -2,6 +2,14 @@
 
 All notable changes to `telegraph` will be documented in this file.
 
+## v1.72.0 - 2026-07-16
+
+### What's Changed
+
+* [Features]#772 implemented Rich Message, RichBlock , RichItem, sendRichMessag by @MarioGattolla in https://github.com/defstudio/telegraph/pull/776
+
+**Full Changelog**: https://github.com/defstudio/telegraph/compare/v1.71.1...v1.72.0
+
 ## v1.71.1 - 2026-06-22
 
 ### What's Changed
